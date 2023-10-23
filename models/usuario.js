@@ -21,7 +21,7 @@ const UsuarioSchema = Schema ({
         unique: true
     },
 
-    imp: {
+    img: {
         type: String,
     },
 

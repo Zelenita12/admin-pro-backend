@@ -89,7 +89,7 @@ const googleSignIn = async ( req, res = response) => {
         });
 
     } catch (error){
-
+        console.error('error conectando con ggole', error);
         res.status(400).json({
             ok: false,
             msg: 'Token de Google no es correcto'
@@ -102,7 +102,7 @@ const googleSignIn = async ( req, res = response) => {
         ok: true,
         msg: req.body.token
     })
-}
+} 
 
 const renewToken = async (req, res = response) => {
     
@@ -110,10 +110,14 @@ const renewToken = async (req, res = response) => {
 
     const token = await generarJWT( uid );
     
-    
+    //Obtener el usuario 
+    const usuario = await Usuario.findById( uid );
+
+
     res.json({
         ok: true,
-        token
+        token,
+        usuario
 
     });
 }

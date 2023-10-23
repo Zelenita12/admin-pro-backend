@@ -50,6 +50,7 @@ const actualizarImagen = async (tipo, id, nombreArchivo) => {
             borrarImagen(pathViejo);
 
             usuario.img = nombreArchivo;
+            console.log("este es el usuario", usuario);
             await usuario.save();
             return true;
 
