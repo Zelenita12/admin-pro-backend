@@ -18,7 +18,7 @@ const getMenuFrontEnd = (role = 'USER_ROLE') => {
             submenu: [
                 // { titulo: 'Usuarios', url: 'usuarios' },
                 { titulo: 'Hospitales', url: 'hospitales' },
-                { titulo: 'Medicos', url: 'medicos' },
+                { titulo: 'Artesanos', url: 'artesanos' },
             ]
         },
     ];
