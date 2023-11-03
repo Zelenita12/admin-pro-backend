@@ -37,7 +37,7 @@ const ArtesanoSchema = Schema ({
         descripcion: { type: String, required: true },
         imagen: { type: String, required: false },
         fecha: { type: Date, required: true },
-        _id: { type: Schema.Types.ObjectId, ref: 'Usuario' }
+        _id: { type: Schema.Types.ObjectId, ref: 'Obra' }
 
     }],
 

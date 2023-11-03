@@ -1,6 +1,7 @@
 const { response } = require('express');
 
 const Artesano = require('../models/artesano');
+const Obra = require('../models/obra');
 
 const getArtesanos = async (req, res = response) => {
 
@@ -138,12 +139,22 @@ const borrarArtesano = async (req, res = response) => {
 
 const crearObra = async (req, res = response) => {
 
-    const id = req.params.id;
+    const idArtesano = req.params.idArtesano;
     const uid = req.uid;
 
-    try {
+   
 
-        const artesano = await Artesano.findById(id);
+    try { 
+        
+        const obra = new Obra({
+        usuario: uid,
+        artesano: idArtesano,
+        ...req.body
+    });
+
+    const obraDB = await obra.save();
+
+        const artesano = await Artesano.findById(idArtesano);
 
         if (!artesano) {
             return res.status(404).json({
@@ -156,7 +167,7 @@ const crearObra = async (req, res = response) => {
            artesano.obras = [];
         }
 
-        artesano.obras.push(req.body)
+        artesano.obras.push(obraDB);
         
         const artesanoActualizado = await Artesano.findByIdAndUpdate(id, artesano, { new: true })
 
@@ -166,12 +177,110 @@ const crearObra = async (req, res = response) => {
         })
 
     } catch (error) {
+        console.error(error)
         res.status(500).json({
             ok: false,
             msg: 'Hable con el administrador'
         });
     }
 
+}
+
+const actualizarObra = async (req, res = response) => {
+
+    const id = req.params.id; // ID de la obra
+    const idArtesano = req.params.idArtesano;
+    const uid = req.uid;
+
+    try {
+
+        const artesano = await Artesano.findById(idArtesano);
+
+        if (!artesano) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Artesano no encontrado por id'
+            });
+        }
+        const obraDB = await Obra.findById(id);
+        // Los cambios que se quieran hacer a la obra
+        const cambiosObra = {
+            titulo: req.body.titulo,
+            descripcion: req.body.descripcion,
+            fecha: obraDB.fecha,
+            imagen: req.body.imagen,
+            usuario: uid
+        }
+
+        // Actualizar la obra en la base de datos
+        const obraActualizada = await Obra.findByIdAndUpdate(id, cambiosObra, { new: true });
+
+        artesano.obras = artesano.obras.filter(obra => obra._id != id);
+
+        artesano.obras.push(obraActualizada);
+
+        const artesanoActualizado = await Artesano.findByIdAndUpdate(idArtesano, artesano, { new: true })
+
+        res.json({
+            ok: true,
+            obra: obraActualizada
+        })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
+
+const borrarObra = async (req, res = response) => {
+
+    const id = req.params.id;
+    const idArtesano = req.params.idArtesano;
+
+    try {
+
+        const artesano = await Artesano.findById(idArtesano);
+
+        if (!artesano) {
+            return res.status(404).json({
+                ok: true,
+                msg: 'Artesano no encontrado por id'
+            });
+        }
+
+        artesano.obras = artesano.obras.filter(obra => obra._id != id);
+
+
+        console.log (artesano)
+        const artesanoActualizado = await Artesano.findByIdAndUpdate(idArtesano, artesano, { new: true })
+
+
+        const obra = await Obra.findById(id);
+
+        if (!obra) {
+            return res.status(404).json({
+                ok: true,
+                msg: 'Obra no encontrada por id'
+            });
+        }
+
+        await Obra.findByIdAndDelete(id);
+
+        res.json({
+            ok: true,
+            msg: 'Obra eliminada',
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
 }
 
 
@@ -181,5 +290,7 @@ module.exports = {
     actualizarArtesano,
     borrarArtesano,
     crearObra,
+    actualizarObra,
+    borrarObra,
     getArtesanoById
 }

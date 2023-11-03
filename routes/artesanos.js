@@ -18,6 +18,8 @@ const {
     actualizarArtesano,
     borrarArtesano,
     crearObra,
+    actualizarObra,
+    borrarObra,
     getArtesanoById
 } = require('../controllers/artesanos');
 
@@ -56,7 +58,7 @@ router.get('/:id',
     getArtesanoById
 );
 
-router.put('/obra/:id',
+router.post('/obra/:idArtesano',
     [
         validarJWT,
         check('titulo', 'El nombre de la obra es necesaria').not().isEmpty(),
@@ -65,6 +67,22 @@ router.put('/obra/:id',
         validarCampos
     ],
     crearObra
+);
+
+router.put('/obra/:idArtesano/:id',
+    [
+        validarJWT,
+        check('titulo', 'El nombre de la obra es necesaria').not().isEmpty(),
+        check('descripcion', 'La descripción de la obra debe ser válida').not().isEmpty(),
+        validarCampos
+    ],
+    actualizarObra
+
+);
+
+router.delete('/obra/:id/:idArtesano',
+    validarJWT,
+    borrarObra
 );
 
 
