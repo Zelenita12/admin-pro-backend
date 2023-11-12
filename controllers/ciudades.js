@@ -1,33 +1,33 @@
 const { response } = require('express');
 
-const Hospital = require('../models/hospital');
+const Ciudad = require('../models/ciudad');
 
-const getHospitales = async (req, res = response) => {
+const getCiudades = async (req, res = response) => {
 
-    const hospitales = await Hospital.find()
-                                    .populate('usuario', 'nombre img');
+    const ciudades = await Ciudad.find()
+        .populate('usuario', 'nombre img');
     
     res.json({
         ok: true,
-        hospitales
+        ciudades
     })
 }
 
-const crearHospital = async (req, res = response) => {
+const crearCiudad = async (req, res = response) => {
 
     const uid = req.uid;
-    const hospital = new Hospital ({
+    const ciudad = new Ciudad ({
         usuario: uid,
         ...req.body
     });
  
     try {
 
-        const hospitalDB = await hospital.save();
+        const ciudadDB = await ciudad.save();
 
         res.json({
             ok: true,
-            hospital: hospitalDB
+            ciudad: ciudadDB
         })
 
 
@@ -39,33 +39,33 @@ const crearHospital = async (req, res = response) => {
     }
 }
 
-const actualizarHospital = async (req, res = response) => {
+const actualizarCiudad = async (req, res = response) => {
 
     const id = req.params.id;
     const uid = req.uid;
 
     try {
 
-        const hospital = await Hospital.findById ( id );
+        const ciudad = await Ciudad.findById ( id );
 
-        if ( !hospital ) {
+        if ( !ciudad ) {
             return res.status(404).json({
                 ok: true,
-                msg: 'Hospital no encontrado por id'
+                msg: 'Ciudad no encontrada por id'
             });
         }
 
-        const cambiosHospital = {
+        const cambiosCiudad = {
             ...req.body,
             usuario: uid
         }
 
-        const hospitalActualizado = await Hospital.findByIdAndUpdate( id, cambiosHospital, { new: true})
+        const ciudadActualizado = await Ciudad.findByIdAndUpdate( id, cambiosCiudad, { new: true})
 
 
         res.json({
             ok: true,
-            hospital: hospitalActualizado
+            ciudad: ciudadActualizado
         })
 
     } catch (error){
@@ -78,26 +78,26 @@ const actualizarHospital = async (req, res = response) => {
     
 }
 
-const borrarHospital = async (req, res = response) => {
+const borrarCiudad = async (req, res = response) => {
 
     const id = req.params.id;
 
     try {
 
-        const hospital = await Hospital.findById ( id );
+        const ciudad = await Ciudad.findById ( id );
 
-        if ( !hospital ) {
+        if ( !ciudad ) {
             return res.status(404).json({
                 ok: true,
-                msg: 'Hospital no encontrado por id'
+                msg: 'Ciudad no encontrado por id'
             });
         }
 
-        await Hospital.findByIdAndDelete( id );
+        await Ciudad.findByIdAndDelete( id );
 
             res.json({
             ok: true,
-            msg: 'Hospital eliminado'
+            msg: 'Ciudad eliminado'
         })
 
     } catch (error){
@@ -112,8 +112,8 @@ const borrarHospital = async (req, res = response) => {
 
 
 module.exports = {
-    getHospitales,
-    crearHospital,
-    actualizarHospital,
-    borrarHospital
+    getCiudades,
+    crearCiudad,
+    actualizarCiudad,
+    borrarCiudad
 }

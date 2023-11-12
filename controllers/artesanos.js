@@ -7,7 +7,7 @@ const getArtesanos = async (req, res = response) => {
 
     const artesanos = await Artesano.find()
         .populate('usuario', 'nombre img')
-        .populate('hospital', 'nombre img');
+        .populate('ciudad', 'nombre img');
 
     res.json({
         ok: true,
@@ -22,7 +22,7 @@ const getArtesanoById = async (req, res = response) => {
     try {
         const artesano = await Artesano.findById(id)
             .populate('usuario', 'nombre img')
-            .populate('hospital', 'nombre img');
+            .populate('ciudad', 'nombre img');
 
         res.json({
             ok: true,
@@ -169,7 +169,7 @@ const crearObra = async (req, res = response) => {
 
         artesano.obras.push(obraDB);
         
-        const artesanoActualizado = await Artesano.findByIdAndUpdate(id, artesano, { new: true })
+        const artesanoActualizado = await Artesano.findByIdAndUpdate(idArtesano, artesano, { new: true })
 
         res.json({
             ok: true,
@@ -286,11 +286,12 @@ const borrarObra = async (req, res = response) => {
 
 module.exports = {
     getArtesanos,
+    getArtesanoById,
     crearArtesano,
     actualizarArtesano,
     borrarArtesano,
     crearObra,
     actualizarObra,
-    borrarObra,
-    getArtesanoById
+    borrarObra
+    
 }

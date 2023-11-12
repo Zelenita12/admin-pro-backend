@@ -17,14 +17,10 @@ const ArtesanoSchema = Schema ({
         required: true
     },
 
-    hospital: {
-        type: Schema.Types.ObjectId,
-        ref: 'Hospital',
-        required: true
-    },
-
     ciudad: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Ciudad',
+        required: true
     },
 
     telefono: {

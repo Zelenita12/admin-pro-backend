@@ -2,10 +2,10 @@
 
 node_modules/
 
-uploads/hospitales/**.jpg
-uploads/hospitales/**.jpeg
-uploads/hospitales/**.png
-uploads/hospitales/**.gif
+uploads/ciudades/**.jpg
+uploads/ciudades/**.jpeg
+uploads/ciudades/**.png
+uploads/ciudades/**.gif
 
 uploads/usuarios/**.jpg
 uploads/usuarios/**.jpeg

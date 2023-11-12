@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const Usuario = require('../models/usuario');
 const Artesano = require('../models/artesano');
-const Hospital = require('../models/hospital');
+const Ciudad = require('../models/ciudad');
 
 const borrarImagen = (path) => {
     if (fs.existsSync(path)) {
@@ -27,17 +27,17 @@ const actualizarImagen = async (tipo, id, nombreArchivo) => {
             await artesano.save();
             return true;
 
-        case 'hospitales':
-            const hospital = await Hospital.findById(id);
-            if (!hospital) {
-                console.log('No es un hospital por id');
+        case 'ciudades':
+            const ciudad = await Ciudad.findById(id);
+            if (!ciudad) {
+                console.log('No es un ciudad por id');
                 return false;
             }
-            pathViejo = `./uploads/hospitales/${hospital.img}`;
+            pathViejo = `./uploads/ciudades/${ciudad.img}`;
             borrarImagen(pathViejo);
 
-            hospital.img = nombreArchivo;
-            await hospital.save();
+            ciudad.img = nombreArchivo;
+            await ciudad.save();
             return true;
 
         case 'usuarios':
