@@ -2,17 +2,17 @@ const { response } = require('express');
 
 const Usuario = require('../models/usuario');
 const Artesano = require('../models/artesano');
-const Ciudad = require('../models/ciudad');
+const Municipio = require('../models/municipio');
 
 const getTodo = async (req, res = response) => {
 
     const busqueda = req.params.busqueda;
     const regex = new RegExp(busqueda, 'i');
 
-    const [usuarios, artesanos, ciudades] = await Promise.all([
+    const [usuarios, artesanos, municipios] = await Promise.all([
         Usuario.find({ nombre: regex }),
         Artesano.find({ nombre: regex }),
-        Ciudad.find({ nombre: regex })
+        Municipio.find({ nombre: regex })
 
     ])
 
@@ -22,7 +22,7 @@ const getTodo = async (req, res = response) => {
         ok: true,
         usuarios,
         artesanos,
-        ciudades
+        municipios
     })
 
 }
@@ -39,10 +39,10 @@ const getDocumentosColeccion = async (req, res = response) => {
         case 'artesanos':
             data = await Artesano.find({ nombre: regex })
                                 .populate('usuario', 'nombre img')
-                                .populate('ciudad', 'nombre img');
+                                .populate('municipio', 'nombre img');
         break;
-        case 'ciudades':
-            data = await Ciudad.find({ nombre: regex })
+        case 'municipios':
+            data = await Municipio.find({ nombre: regex })
                                 .populate('usuario', 'nombre img');
         break;
 
@@ -53,7 +53,7 @@ const getDocumentosColeccion = async (req, res = response) => {
         default:
             return res.status(400).json({
                 ok: false,
-                msg: 'La tabla tiene que ser usuarios/artesanos/ciudades'
+                msg: 'La tabla tiene que ser usuarios/artesanos/municipios'
             });
             
     }

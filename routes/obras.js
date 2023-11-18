@@ -8,12 +8,14 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 const {
-    getObras,
+    getObras, getObrasById,
 } = require('../controllers/obras');
 
 const router = Router();
 
 router.get('/', getObras);
+
+router.get('/:id', getObrasById);
 
 
 module.exports = router;

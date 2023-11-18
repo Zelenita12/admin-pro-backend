@@ -22,7 +22,7 @@ app.use( express.json());
 dbConnection();
 
 app.use( '/api/usuarios', require('./routes/usuarios') );
-app.use( '/api/ciudades', require('./routes/ciudades') );
+app.use( '/api/municipios', require('./routes/municipios') );
 app.use( '/api/artesanos', require('./routes/artesanos') );
 app.use( '/api/obras', require('./routes/obras') );
 app.use( '/api/todo', require('./routes/busquedas') );

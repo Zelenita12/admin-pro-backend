@@ -20,6 +20,16 @@ const ObraSchema = Schema ({
         type: Date, 
         required: true 
     },
+
+    precio: { 
+        type: Number,
+        required: true
+    },
+
+    valoraciones: { 
+        type: Number,
+        default: 0 // Establece un valor por defecto de 0
+    },
        
     usuario: {
         required: true,
@@ -32,6 +42,8 @@ const ObraSchema = Schema ({
         type: Schema.Types.ObjectId,
         ref: 'Artesano'
     },
+
+    
 
 }, { collection: 'obras'});
 

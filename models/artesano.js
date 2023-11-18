@@ -17,9 +17,9 @@ const ArtesanoSchema = Schema ({
         required: true
     },
 
-    ciudad: {
+    municipio: {
         type: Schema.Types.ObjectId,
-        ref: 'Ciudad',
+        ref: 'Municipio',
         required: true
     },
 

@@ -7,11 +7,12 @@ const getObras = async (req, res = response) => {
     const obras = await Obra.find()
                             .sort({ fecha: -1 })
                             .populate('artesano', 'nombre')
+                            .populate('usuario', 'email')
                             .populate({
                                         path: 'artesano', // Asegúrate de que el campo se llame 'artesano'
                                         populate: { 
-                                            path: 'ciudad', 
-                                            select: 'nombre' // Asegúrate de que 'nombreCiudad' es el campo correcto en el esquema de 'Ciudad'
+                                            path: 'municipio', 
+                                            select: 'nombre' // Asegúrate de que 'nombreMunicipio' es el campo correcto en el esquema de 'Municipio'
                                         }
                                     });
 
@@ -27,13 +28,14 @@ const getObrasById = async (req, res = response) => {
 
     try {
         const obra = await Obra.findById(id).populate('artesano', 'nombre')
-        .populate({
-            path: 'artesano', // Asegúrate de que el campo se llame 'artesano'
-            populate: { 
-                path: 'ciudad', 
-                select: 'nombre' // Asegúrate de que 'nombreCiudad' es el campo correcto en el esquema de 'Ciudad'
-            }
-        });
+        .populate('usuario', 'email')
+                                            .populate({
+                                                path: 'artesano', // Asegúrate de que el campo se llame 'artesano'
+                                                populate: { 
+                                                    path: 'municipio', 
+                                                    select: 'nombre img' // Asegúrate de que 'nombreMunicipio' es el campo correcto en el esquema de 'Municipio'
+                                                }
+                                            });
 
         res.json({
             ok: true,

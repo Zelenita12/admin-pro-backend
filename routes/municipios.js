@@ -1,4 +1,4 @@
-// Ruta: '/api/ciudades'
+// Ruta: '/api/municipios'
 
 
 const { Router } = require('express');
@@ -8,38 +8,38 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 const {
-    getCiudades,
-    crearCiudad,
-    actualizarCiudad,
-    borrarCiudad
-} = require('../controllers/ciudades');
+    getMunicipios,
+    crearMunicipio,
+    actualizarMunicipio,
+    borrarMunicipio
+} = require('../controllers/municipios');
 
 const router = Router();
 
-router.get('/', getCiudades);
+router.get('/', getMunicipios);
 
 router.post('/',
     [
         validarJWT,
-        check('nombre', 'El nombre del ciudad es necesario').not().isEmpty(),
+        check('nombre', 'El nombre del municipio es necesario').not().isEmpty(),
         validarCampos
     ],
-    crearCiudad
+    crearMunicipio
 );
 
 
 router.put('/:id',
     [
         validarJWT,
-        check('nombre', 'El nombre del ciudad es necesario').not().isEmpty(),
+        check('nombre', 'El nombre del municipio es necesario').not().isEmpty(),
         validarCampos
     ],
-    actualizarCiudad
+    actualizarMunicipio
 );
 
 router.delete('/:id',
     validarJWT,
-    borrarCiudad
+    borrarMunicipio
 );
 
 

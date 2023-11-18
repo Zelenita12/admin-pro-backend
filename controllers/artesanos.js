@@ -7,7 +7,7 @@ const getArtesanos = async (req, res = response) => {
 
     const artesanos = await Artesano.find()
         .populate('usuario', 'nombre img')
-        .populate('ciudad', 'nombre img');
+        .populate('municipio', 'nombre img');
 
     res.json({
         ok: true,
@@ -22,7 +22,7 @@ const getArtesanoById = async (req, res = response) => {
     try {
         const artesano = await Artesano.findById(id)
             .populate('usuario', 'nombre img')
-            .populate('ciudad', 'nombre img');
+            .populate('municipio', 'nombre img');
 
         res.json({
             ok: true,

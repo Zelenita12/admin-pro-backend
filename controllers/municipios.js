@@ -1,33 +1,33 @@
 const { response } = require('express');
 
-const Ciudad = require('../models/ciudad');
+const Municipio = require('../models/municipio');
 
-const getCiudades = async (req, res = response) => {
+const getMunicipios = async (req, res = response) => {
 
-    const ciudades = await Ciudad.find()
+    const municipios = await Municipio.find()
         .populate('usuario', 'nombre img');
     
     res.json({
         ok: true,
-        ciudades
+        municipios
     })
 }
 
-const crearCiudad = async (req, res = response) => {
+const crearMunicipio = async (req, res = response) => {
 
     const uid = req.uid;
-    const ciudad = new Ciudad ({
+    const municipio = new Municipio ({
         usuario: uid,
         ...req.body
     });
  
     try {
 
-        const ciudadDB = await ciudad.save();
+        const municipioDB = await municipio.save();
 
         res.json({
             ok: true,
-            ciudad: ciudadDB
+            municipio: municipioDB
         })
 
 
@@ -39,33 +39,33 @@ const crearCiudad = async (req, res = response) => {
     }
 }
 
-const actualizarCiudad = async (req, res = response) => {
+const actualizarMunicipio = async (req, res = response) => {
 
     const id = req.params.id;
     const uid = req.uid;
 
     try {
 
-        const ciudad = await Ciudad.findById ( id );
+        const municipio = await Municipio.findById ( id );
 
-        if ( !ciudad ) {
+        if ( !municipio ) {
             return res.status(404).json({
                 ok: true,
-                msg: 'Ciudad no encontrada por id'
+                msg: 'Municipio no encontrada por id'
             });
         }
 
-        const cambiosCiudad = {
+        const cambiosMunicipio = {
             ...req.body,
             usuario: uid
         }
 
-        const ciudadActualizado = await Ciudad.findByIdAndUpdate( id, cambiosCiudad, { new: true})
+        const municipioActualizado = await Municipio.findByIdAndUpdate( id, cambiosMunicipio, { new: true})
 
 
         res.json({
             ok: true,
-            ciudad: ciudadActualizado
+            municipio: municipioActualizado
         })
 
     } catch (error){
@@ -78,26 +78,26 @@ const actualizarCiudad = async (req, res = response) => {
     
 }
 
-const borrarCiudad = async (req, res = response) => {
+const borrarMunicipio = async (req, res = response) => {
 
     const id = req.params.id;
 
     try {
 
-        const ciudad = await Ciudad.findById ( id );
+        const municipio = await Municipio.findById ( id );
 
-        if ( !ciudad ) {
+        if ( !municipio ) {
             return res.status(404).json({
                 ok: true,
-                msg: 'Ciudad no encontrado por id'
+                msg: 'Municipio no encontrado por id'
             });
         }
 
-        await Ciudad.findByIdAndDelete( id );
+        await Municipio.findByIdAndDelete( id );
 
             res.json({
             ok: true,
-            msg: 'Ciudad eliminado'
+            msg: 'Municipio eliminado'
         })
 
     } catch (error){
@@ -112,8 +112,8 @@ const borrarCiudad = async (req, res = response) => {
 
 
 module.exports = {
-    getCiudades,
-    crearCiudad,
-    actualizarCiudad,
-    borrarCiudad
+    getMunicipios,
+    crearMunicipio,
+    actualizarMunicipio,
+    borrarMunicipio
 }

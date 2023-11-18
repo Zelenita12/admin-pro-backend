@@ -3,7 +3,7 @@
 //RUTA artesanos
 //ruta: '/api/artesano'
 
-// Ruta: '/api/ciudades'
+// Ruta: '/api/municipios'
 
 
 const { Router } = require('express');
@@ -31,7 +31,7 @@ router.post('/',
     [
         validarJWT,
         check('nombre', 'El nombre del artesano es necesario').not().isEmpty(),
-        check('ciudad', 'El id de la ciudad debe ser válido').isMongoId(),
+        check('municipio', 'El id del municipio debe ser válido').isMongoId(),
         validarCampos
     ],
     crearArtesano
@@ -42,7 +42,7 @@ router.put('/:id',
     [
         validarJWT,
         check('nombre', 'El nombre del artesano es necesario').not().isEmpty(),
-        check('ciudad', 'El id de la ciudad debe ser válido').isMongoId(),
+        check('municipio', 'El id del municipio debe ser válido').isMongoId(),
         validarCampos
     ],
     actualizarArtesano

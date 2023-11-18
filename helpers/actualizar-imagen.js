@@ -2,7 +2,8 @@ const fs = require('fs');
 
 const Usuario = require('../models/usuario');
 const Artesano = require('../models/artesano');
-const Ciudad = require('../models/ciudad');
+const Municipio = require('../models/municipio');
+const Obra = require('../models/obra');
 
 const borrarImagen = (path) => {
     if (fs.existsSync(path)) {
@@ -27,17 +28,17 @@ const actualizarImagen = async (tipo, id, nombreArchivo) => {
             await artesano.save();
             return true;
 
-        case 'ciudades':
-            const ciudad = await Ciudad.findById(id);
-            if (!ciudad) {
-                console.log('No es un ciudad por id');
+        case 'municipios':
+            const municipio = await Municipio.findById(id);
+            if (!municipio) {
+                console.log('No es un municipio por id');
                 return false;
             }
-            pathViejo = `./uploads/ciudades/${ciudad.img}`;
+            pathViejo = `./uploads/municipios/${municipio.img}`;
             borrarImagen(pathViejo);
 
-            ciudad.img = nombreArchivo;
-            await ciudad.save();
+            municipio.img = nombreArchivo;
+            await municipio.save();
             return true;
 
         case 'usuarios':
@@ -52,6 +53,20 @@ const actualizarImagen = async (tipo, id, nombreArchivo) => {
             usuario.img = nombreArchivo;
             console.log("este es el usuario", usuario);
             await usuario.save();
+            return true;
+
+        case 'obras':
+            const obra = await Obra.findById(id);
+            if (!obra) {
+                console.log('No es una obra por id');
+                return false;
+            }
+            pathViejo = `./uploads/obras/${obra.imagen}`;
+            borrarImagen(pathViejo);
+
+            obra.imagen = nombreArchivo;
+            console.log("esta es la obra", obra);
+            await obra.save();
             return true;
 
         default:
