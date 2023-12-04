@@ -17,6 +17,7 @@ const ArtesanoSchema = Schema ({
         required: true
     },
 
+
     municipio: {
         type: Schema.Types.ObjectId,
         ref: 'Municipio',
@@ -27,14 +28,14 @@ const ArtesanoSchema = Schema ({
         type: String,
     },
 
-    obras: [{
-        usuario: { type: Schema.Types.ObjectId, ref: 'Usuario' },
-        titulo: { type: String, required: true },
-        descripcion: { type: String, required: true },
-        imagen: { type: String, required: false },
-        fecha: { type: Date, required: true },
-        _id: { type: Schema.Types.ObjectId, ref: 'Obra' }
+    descripcionArt: {
+        type: String,
+        maxlength: 35,
+    },
 
+    obras: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Obra'
     }],
 
 

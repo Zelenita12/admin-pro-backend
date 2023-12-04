@@ -1,30 +1,50 @@
 const getMenuFrontEnd = (role = 'USER_ROLE') => {
+    let menu = [];
 
-    const menu = [
+    // Agregar elementos comunes para todos los roles
+    menu.push(
         {
-            titulo: 'Dashboard',
-            icono: 'mdi mdi-gauge',
+            titulo: 'EnRédaTe',
+            icono: 'mdi mdi-lumx',
             submenu: [
-                { titulo: 'Main', url: '/' },
-                { titulo: 'Gráficas', url: 'grafica1' },
-                { titulo: 'rxjs', url: 'rxjs' },
-                { titulo: 'Promesas', url: 'promesas' },
-                { titulo: 'ProgressBar', url: 'progress' },
+                { titulo: '¿Quieres enRedArte?', url: '/' },
+                { titulo: 'Ferias de Mallorca', url: 'rxjs' },
+                { titulo: '¿Eres artesano?', url: 'promesas' },
             ]
-        },
-        {
-            titulo: 'Mantenimiento',
-            icono: 'mdi mdi-folder-lock-open',
-            submenu: [
-                // { titulo: 'Usuarios', url: 'usuarios' },
-                { titulo: 'Municipios', url: 'municipios' },
-                { titulo: 'Artesanos', url: 'artesanos' },
-            ]
-        },
-    ];
+        }
+    );
 
+    // Agregar elementos específicos para el rol de admin
     if (role === 'ADMIN_ROLE') {
-        menu[1].submenu.unshift({ titulo: 'Usuarios', url: 'usuarios' })
+        menu.push(
+            {
+                titulo: 'Explora',
+                icono: 'mdi mdi-compass',
+                submenu: [
+                    { titulo: 'Municipios', url: 'municipios', icono: 'mdi mdi-city' }, 
+                    { titulo: 'Artesanos', url: 'artesanos' }, 
+                ]
+            },
+            {
+                titulo: 'Mantenimiento',
+                icono: 'mdi mdi-wrench',
+                submenu: [
+                    { titulo: 'Usuarios', url: 'usuarios' },
+                ]
+            }
+        );
+    } else {
+        // Agregar elementos específicos para usuarios no admin
+        menu.push(
+            {
+                titulo: 'Explora',
+                icono: 'mdi mdi-compass',
+                submenu: [
+                    { titulo: 'Municipios', url: 'municipios', icono: 'mdi mdi-city' }, 
+                    { titulo: 'Artesanos', url: 'artesanos' }, 
+                ]
+            }
+        );
     }
 
     return menu;

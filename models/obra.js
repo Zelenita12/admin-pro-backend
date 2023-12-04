@@ -31,6 +31,14 @@ const ObraSchema = Schema ({
         default: 0 // Establece un valor por defecto de 0
     },
        
+    likes: [
+        {
+          usuario: {
+            type: Schema.Types.ObjectId,
+            ref: 'Usuario',
+          },
+        },
+      ],
     usuario: {
         required: true,
         type: Schema.Types.ObjectId,

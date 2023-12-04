@@ -7,7 +7,11 @@ const Obra = require('../models/obra');
 
 const borrarImagen = (path) => {
     if (fs.existsSync(path)) {
-        fs.unlinkSync(path);
+        try {
+            fs.unlinkSync(path);
+        } catch (error) {
+            console.error('Error al borrar el archivo:', error);
+        }
     }
 };
 
@@ -35,7 +39,7 @@ const actualizarImagen = async (tipo, id, nombreArchivo) => {
                 return false;
             }
             pathViejo = `./uploads/municipios/${municipio.img}`;
-            borrarImagen(pathViejo);
+            borrarImagen(pathViejo); 
 
             municipio.img = nombreArchivo;
             await municipio.save();

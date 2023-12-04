@@ -34,12 +34,12 @@ const fileUpload = (req, res = response) => {
     const extensionArchivo = nombreCortado[nombreCortado.length - 1];
 
     //Validar Extension
-    const extensionesValidas = ['png', 'jpg', 'jpeg', 'gif'];
+    const extensionesValidas = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
     if (!extensionesValidas.includes(extensionArchivo)) {
         return res.status(400).json({
             ok: false,
             msg: 'No es una extensión permitida'
-        });
+        }); 
     }
 
     //Generar el nombre del archivo

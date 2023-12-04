@@ -35,7 +35,11 @@ const UsuarioSchema = Schema ({
         type: Boolean,
         default: false
     },
-
+    artesano: {
+        type: Schema.Types.ObjectId,
+        ref: 'Artesano',
+        required: false
+    },
 });
 
 UsuarioSchema.method('toJSON', function(){

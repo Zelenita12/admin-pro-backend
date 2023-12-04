@@ -2,11 +2,12 @@ const { response } = require('express');
 
 const Artesano = require('../models/artesano');
 const Obra = require('../models/obra');
+const Usuario = require('../models/usuario');
 
 const getArtesanos = async (req, res = response) => {
 
     const artesanos = await Artesano.find()
-        .populate('usuario', 'nombre img')
+        .populate('usuario', 'nombre img email')
         .populate('municipio', 'nombre img');
 
     res.json({
@@ -22,8 +23,9 @@ const getArtesanoById = async (req, res = response) => {
     try {
         const artesano = await Artesano.findById(id)
             .populate('usuario', 'nombre img')
+            .populate('obras')
             .populate('municipio', 'nombre img');
-
+console.log(artesano)
         res.json({
             ok: true,
             artesano
@@ -48,9 +50,17 @@ const crearArtesano = async (req, res = response) => {
         ...req.body
     });
 
+
+
     try {
 
         const artesanoDB = await artesano.save();
+
+        const usuario = await Usuario.findById( uid );
+
+        usuario.artesano = artesanoDB._id;
+
+        usuario.save();
 
         res.json({
             ok: true,
@@ -58,6 +68,7 @@ const crearArtesano = async (req, res = response) => {
         })
 
     } catch (error) {
+        console.log('error', error);
         res.status(500).json({
             ok: false,
             msg: 'Hable con el adminstradros'
@@ -162,7 +173,7 @@ const crearObra = async (req, res = response) => {
                 msg: 'Artesano no encontrado por id'
             });
         }
-
+       // 6559cff3a56397558f1c7209
         if (!artesano?.obras) {
            artesano.obras = [];
         }
@@ -209,7 +220,8 @@ const actualizarObra = async (req, res = response) => {
             descripcion: req.body.descripcion,
             fecha: obraDB.fecha,
             imagen: req.body.imagen,
-            usuario: uid
+            usuario: uid,
+            precio: req.body.precio,
         }
 
         // Actualizar la obra en la base de datos
