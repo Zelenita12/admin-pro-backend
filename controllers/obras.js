@@ -31,7 +31,7 @@ const getObrasById = async (req, res = response) => {
                 path: 'artesano',
                 select: 'obras img telefono descripcionArt nombre', // Seleccionar solo el campo 'obras' y otros que necesites
                 populate: [
-                    { path: 'obras', select: 'titulo descripcion fecha precio imagen' }, // Aquí especificas qué campos de 'Obra' quieres
+                    { path: 'obras', select: 'titulo descripcion fecha precio imagen likes' }, // Aquí especificas qué campos de 'Obra' quieres
                     {
                         path: 'municipio',
                         select: 'nombre img'

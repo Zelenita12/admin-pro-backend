@@ -2,6 +2,8 @@ const { response } = require('express');
 const bcrypt = require('bcryptjs');
 
 const Usuario = require('../models/usuario');
+const Artesano = require('../models/artesano');
+const Obra = require('../models/obra');
 const { generarJWT } = require('../helpers/jwt');
 
 const getUsuarios = async (req, res) => {
@@ -127,38 +129,41 @@ const actualizarUsuario = async (req, res = response) => {
 }
 
 const borrarUsuario = async (req, res = response) => {
-
     const uid = req.params.id;
 
     try {
-
-        const usuarioDB = await Usuario.findById (uid);
-
-        if ( !usuarioDB){
+        // Verificar si el usuario existe
+        const usuarioDB = await Usuario.findById(uid);
+        if (!usuarioDB) {
             return res.status(404).json({
                 ok: false,
                 msg: "No existe un usuario con ese id"
             });
         }
 
-        await Usuario.findByIdAndDelete( uid );
+        // Eliminar el artesano asociado y sus obras
+        const artesano = await Artesano.findOne({ usuario: uid });
+        if (artesano) {
+            await Obra.deleteMany({ artesano: artesano._id });
+            await Artesano.findByIdAndDelete(artesano._id);
+        }
+
+        // Eliminar el usuarios
+        await Usuario.findByIdAndDelete(uid);
 
         res.json({
             ok: true,
-            msg: 'Usuario eliminado'
-        })
-
+            msg: 'Usuario y sus datos asociados eliminados'
+        });
     } catch (error) {
-
-        console.log (error);
+        console.log(error);
         res.status(500).json({
             ok: false,
             msg: "Hable con el administrador"
         });
-
     }
-
 }
+
 
 module.exports = {
     getUsuarios,

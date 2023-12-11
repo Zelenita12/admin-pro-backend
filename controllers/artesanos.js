@@ -8,7 +8,11 @@ const getArtesanos = async (req, res = response) => {
 
     const artesanos = await Artesano.find()
         .populate('usuario', 'nombre img email')
-        .populate('municipio', 'nombre img');
+        .populate('municipio', 'nombre img')
+        .populate({
+            path: 'obras',
+            select: 'titulo imagen', // Selecciona los campos que necesitas de las obras
+        });
 
     res.json({
         ok: true,

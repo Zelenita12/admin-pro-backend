@@ -6,7 +6,6 @@ const UsuarioSchema = Schema ({
     nombre: {
         type: String,
         required: true
-
     },
 
     email: {
@@ -35,6 +34,7 @@ const UsuarioSchema = Schema ({
         type: Boolean,
         default: false
     },
+    
     artesano: {
         type: Schema.Types.ObjectId,
         ref: 'Artesano',

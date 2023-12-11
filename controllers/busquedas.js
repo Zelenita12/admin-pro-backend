@@ -3,16 +3,19 @@ const { response } = require('express');
 const Usuario = require('../models/usuario');
 const Artesano = require('../models/artesano');
 const Municipio = require('../models/municipio');
+const Obra = require('../models/obra'); 
+
 
 const getTodo = async (req, res = response) => {
 
     const busqueda = req.params.busqueda;
     const regex = new RegExp(busqueda, 'i');
 
-    const [usuarios, artesanos, municipios] = await Promise.all([
+    const [usuarios, artesanos, municipios, obras] = await Promise.all([
         Usuario.find({ nombre: regex }),
         Artesano.find({ nombre: regex }),
-        Municipio.find({ nombre: regex })
+        Municipio.find({ nombre: regex }),
+        Obra.find({ titulo: regex })
 
     ])
 
@@ -22,7 +25,8 @@ const getTodo = async (req, res = response) => {
         ok: true,
         usuarios,
         artesanos,
-        municipios
+        municipios,
+        obras
     })
 
 }
@@ -48,6 +52,10 @@ const getDocumentosColeccion = async (req, res = response) => {
 
         case 'usuarios':
             data = await Usuario.find({ nombre: regex });
+        break;
+
+        case 'obras':
+            data = await Usuario.find({ titulo: regex });
         break;
 
         default:
